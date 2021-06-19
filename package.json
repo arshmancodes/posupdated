@@ -1,20 +1,21 @@
 {
-  "name": "point_of_sale",
-  "version": "1.0.0",
-  "description": "Meemus desktop pos",
-  "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Codeminers",
-  "license": "ISC",
-  "devDependencies": {
-    "nodemon": "^2.0.7"
-  },
-  "dependencies": {
-    "bcrypt": "^5.0.1",
-    "cors": "^2.8.5",
-    "express": "^4.17.1",
-    "mysql2": "^2.2.5"
-  }
+    "name": "point_of_sale",
+    "version": "1.0.0",
+    "description": "Meemus desktop pos",
+    "main": "app.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "nodemon app.js"
+    },
+    "author": "Codeminers",
+    "license": "ISC",
+    "devDependencies": {
+        "nodemon": "^2.0.7"
+    },
+    "dependencies": {
+        "bcrypt": "^5.0.1",
+        "cors": "^2.8.5",
+        "express": "^4.17.1",
+        "mysql2": "^2.2.5"
+    }
 }

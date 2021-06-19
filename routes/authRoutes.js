@@ -12,4 +12,6 @@ router.get('/', (req, res, next) => {
 router.post('/register', authController.registerUser);
 router.post('/login', authController.loginUser);
 
+router.get('/:id', authController.getUserById);
+
 module.exports = router;
