@@ -20,7 +20,10 @@ app.use(cors(), (req, res, next) => {
     // res.setHeader('Access-Control-Allow-Methods', 'POST, GET, PUT, PATCH, DELETE');
     next();
 });
-const expressServer = app.listen();
+
+const port = process.env.PORT || 8080;
+
+const expressServer = app.listen(port);
 
 
 print = function(d) {
