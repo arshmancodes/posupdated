@@ -16,4 +16,14 @@ const pool = mysql.createPool({
     password: ''
 });
 
+
+// OUR DATABASE
+
+// const pool = mysql.createPool({
+//     host: 'localhost',
+//     user: 'codemine_pos',
+//     database: 'codemine_pos',
+//     password: 'pos123456'
+// });
+
 module.exports = pool.promise();
