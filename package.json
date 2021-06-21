@@ -1,6 +1,6 @@
 {
     "name": "point_of_sale",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Meemus desktop pos",
     "main": "app.js",
     "scripts": {
