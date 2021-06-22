@@ -20,7 +20,7 @@ const mysql = require('mysql2');
 // OUR DATABASE
 
 const pool = mysql.createPool({
-    host: '170.249.211.50',
+    host: 'https://www.meemuskitchenpk.com/',
     user: 'codemine_pos',
     database: 'codemine_pos',
     password: 'pos123456'
