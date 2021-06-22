@@ -42,8 +42,6 @@ io.of('/').on('connection', function(socket, req) {
     console.log(socket.id + " Is connected to the server");
     socket.emit('status', socket.id);
 
-    socket.emit("res", "HEY BRO")
-
     socket.on('connect_failed', function() {
         // print('Connection Failed');
     });
