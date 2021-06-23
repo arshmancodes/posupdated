@@ -20,7 +20,7 @@ const mysql = require('mysql2');
 // OUR DATABASE
 
 const pool = mysql.createPool({
-    host: 'https://server2.needcloudhost.com:2222/user/database/codemine_pos',
+    host: '170.249.211.50',
     user: 'codemine_pos',
     database: 'codemine_pos',
     password: 'pos123456',
