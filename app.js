@@ -3,6 +3,9 @@ const cors = require('cors');
 const path = require('path');
 
 const authRoutes = require('./routes/authRoutes');
+const categoryRoutes = require('./routes/categoryRoutes');
+const productRoutes = require('./routes/productRoutes');
+
 var fs = require('fs');
 
 var util = require('util');
@@ -46,6 +49,16 @@ io.of('/').on('connection', function(socket, req) {
         // print('Connection Failed');
     });
 
+    socket.on('category_uploaded', function(val) {
+        // print('Connection Failed');
+        io.emit('listen_category', true);
+    });
+
+    socket.on('product_uploaded', function(val) {
+        // print('Connection Failed');
+        io.emit('listen_product', true);
+    });
+
     socket.on("disconnect", (reason) => {
         // print(reason + " Disconnected")
         console.log("Client Disconnected");
@@ -56,3 +69,5 @@ app.use('/api/images', express.static(path.join(__dirname, 'images')));
 
 
 app.use('/api/auth', authRoutes);
+app.use('/api/category', categoryRoutes);
+app.use('/api/product', productRoutes)
