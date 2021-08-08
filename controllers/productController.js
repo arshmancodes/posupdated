@@ -31,7 +31,7 @@ function uploadProductImage(imageFile, dir) {
 exports.uploadProduct = (req, res, next) => {
 
     const imageUrl = uploadProductImage(req.body.image, req.body.productName);
-    db.execute('INSERT INTO product(name, category, imageUrl, stock, price, ingredients) VALUES (?, ?, ?, ?, ?, ?)', [req.body.productName, req.body.category, imageUrl, req.body.stock, req.body.price, req.body.ingredients]).then(([rows, fieldData]) => {
+    db.execute('INSERT INTO product(name, category, imageUrl, stock, price, ingredients, unit, size) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [req.body.productName, req.body.category, imageUrl, req.body.stock, req.body.price, req.body.ingredients, req.body.unit, req.body.size]).then(([rows, fieldData]) => {
         res.status(200).json({
             data: rows.insertId,
             success: true
