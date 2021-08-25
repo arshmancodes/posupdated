@@ -3,8 +3,10 @@ const cors = require('cors');
 const path = require('path');
 
 const authRoutes = require('./routes/authRoutes');
+const userRoutes = require('./routes/userRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
 const productRoutes = require('./routes/productRoutes');
+
 
 var fs = require('fs');
 
@@ -69,5 +71,6 @@ app.use('/api/images', express.static(path.join(__dirname, 'images')));
 
 
 app.use('/api/auth', authRoutes);
+app.use('/api/user', userRoutes);
 app.use('/api/category', categoryRoutes);
 app.use('/api/product', productRoutes)
