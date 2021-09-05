@@ -31,7 +31,7 @@ function uploadProductImage(imageFile, dir) {
 exports.uploadProduct = (req, res, next) => {
 
     const imageUrl = uploadProductImage(req.body.image, req.body.productName);
-    db.execute('INSERT INTO product(name, category, imageUrl, stock, price, ingredients, unit, size) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [req.body.productName, req.body.category, imageUrl, req.body.stock, req.body.price, req.body.ingredients, req.body.unit, req.body.size]).then(([rows, fieldData]) => {
+    db.execute('INSERT INTO product(name, category, imageUrl, stock, price, ingredients, unit, size, branchid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [req.body.productName, req.body.category, imageUrl, req.body.stock, req.body.price, req.body.ingredients, req.body.unit, req.body.size, req.body.branchid]).then(([rows, fieldData]) => {
         res.status(200).json({
             data: rows.insertId,
             success: true
@@ -45,9 +45,33 @@ exports.uploadProduct = (req, res, next) => {
 }
 
 exports.getAllProduct = (req, res, next) => {
-    db.execute('SELECT * FROM product').then(([rows, field]) => {
+    const branchId = req.params.branchid;
+    db.execute('SELECT * FROM product WHERE branchid = ?', [branchId]).then(([rows, field]) => {
         res.status(200).json({
             data: rows,
+            success: true
+        });
+    }).catch((err) => {
+        res.status(500).json({
+            message: err.message,
+            success: false
+        });
+    })
+}
+
+exports.updateById = (req, res, next) => {
+    const branchId = req.params.branchid;
+    const productId = req.params.productId;
+
+    var name = req.body.name;
+    var category = req.body.category;
+    var size = req.body.size;
+    var stock = req.body.stock;
+    var price = req.body.price;
+
+    db.execute('UPDATE product SET name = ? , category = ?, size = ?, stock = ?, price = ? WHERE id = ? AND branchid = ?', [name, category, size, stock, price, productId, branchId]).then(([rows, field]) => {
+        res.status(200).json({
+            data: "Product Updated",
             success: true
         });
     }).catch((err) => {

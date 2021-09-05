@@ -10,6 +10,8 @@ router.get('/', (req, res, next) => {
 
 router.post('/upload', productController.uploadProduct);
 
-router.get('/all', productController.getAllProduct);
+router.get('/all/:branchid', productController.getAllProduct);
+
+router.post('/update/:branchid/:productId', productController.updateById);
 
 module.exports = router;

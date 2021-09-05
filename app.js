@@ -6,6 +6,7 @@ const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
 const productRoutes = require('./routes/productRoutes');
+const promoRoutes = require('./routes/promoRoutes');
 
 
 var fs = require('fs');
@@ -61,6 +62,12 @@ io.of('/').on('connection', function(socket, req) {
         io.emit('listen_product', true);
     });
 
+
+    socket.on('promo', function(val) {
+        // print('Connection Failed');
+        io.emit('promo', true);
+    });
+
     socket.on("disconnect", (reason) => {
         // print(reason + " Disconnected")
         console.log("Client Disconnected");
@@ -74,3 +81,4 @@ app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/category', categoryRoutes);
 app.use('/api/product', productRoutes)
+app.use('/api/promo', promoRoutes)

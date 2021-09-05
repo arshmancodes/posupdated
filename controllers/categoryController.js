@@ -30,7 +30,7 @@ function uploadCategoryImage(imageFile, dir) {
 
 exports.uploadCategory = (req, res, next) => {
     const imageUrl = uploadCategoryImage(req.body.image, req.body.categoryName);
-    db.execute('INSERT INTO category(name, imageUrl) VALUES (?, ?)', [req.body.categoryName, imageUrl]).then(([rows, fieldData]) => {
+    db.execute('INSERT INTO category(name, imageUrl, branchid) VALUES (?, ?, ?)', [req.body.categoryName, imageUrl, req.body.branchid]).then(([rows, fieldData]) => {
         res.status(200).json({
             data: rows.insertId,
             success: true
@@ -44,8 +44,9 @@ exports.uploadCategory = (req, res, next) => {
 }
 
 exports.getAllCategory = (req, res, next) => {
-    db.execute('SELECT * FROM category').then(([category, field]) => {
-        db.execute("SELECT * FROM product").then(([product, field]) => {
+    const branchId = req.params.branchid;
+    db.execute('SELECT * FROM category WHERE branchid = ?', [branchId]).then(([category, field]) => {
+        db.execute("SELECT * FROM product WHERE branchid = ?", [branchId]).then(([product, field]) => {
 
             let completeArray = [];
             let prodsArray = []
@@ -81,6 +82,41 @@ exports.getAllCategory = (req, res, next) => {
     }).catch((err) => {
         res.status(500).json({
             message: err.message + "(Category ISSUE)",
+            success: false
+        });
+    })
+}
+
+
+exports.updateById = (req, res, next) => {
+    const branchId = req.params.branchid;
+    const categoryId = req.params.categoryId;
+    const oldCat = req.body.oldCat;
+    const categoryName = req.body.category;
+
+    db.execute('UPDATE category SET name = ?  WHERE id = ?', [categoryName, categoryId]).then(([rows, field]) => {
+
+
+        db.execute('UPDATE product SET category = ?  WHERE category = ? AND branchid = ? ', [categoryName, oldCat, branchId]).then(([rows, field]) => {
+
+            res.status(200).json({
+                data: "Category Updated",
+                success: true
+            });
+
+        }).catch((err) => {
+            res.status(500).json({
+                message: err.message,
+                success: false
+            });
+        })
+
+
+
+
+    }).catch((err) => {
+        res.status(500).json({
+            message: err.message,
             success: false
         });
     })

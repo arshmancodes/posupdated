@@ -10,6 +10,8 @@ router.get('/', (req, res, next) => {
 });
 
 router.post('/upload', categoryController.uploadCategory);
-router.get('/all', categoryController.getAllCategory);
+router.get('/all/:branchid', categoryController.getAllCategory);
+
+router.post('/update/:branchid/:categoryId', categoryController.updateById);
 
 module.exports = router;
