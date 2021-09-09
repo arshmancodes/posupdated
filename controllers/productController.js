@@ -81,3 +81,23 @@ exports.updateById = (req, res, next) => {
         });
     })
 }
+
+
+exports.deleteById = (req, res, next) => {
+    const branchId = req.params.branchid;
+    const productId = req.params.productId;
+
+
+    db.execute('DELETE FROM product WHERE id = ? AND branchid = ?', [productId, branchId]).then(([rows, fieldData]) => {
+        res.status(200).json({
+            message: "Product deleted",
+            success: true
+        });
+    }).catch((err) => {
+        res.status(500).json({
+            message: err.message,
+            success: false
+        });
+    });
+
+}

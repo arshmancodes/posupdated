@@ -121,3 +121,35 @@ exports.updateById = (req, res, next) => {
         });
     })
 }
+
+
+exports.deleteById = (req, res, next) => {
+    const branchId = req.params.branchid;
+    const categoryId = req.params.categoryId;
+
+    const catName = req.body.name;
+
+
+    db.execute('DELETE FROM category WHERE id = ? AND branchid = ? ', [categoryId, branchId]).then(([rows, field]) => {
+
+        db.execute('DELETE FROM product WHERE category = ? AND branchid = ? ', [catName, branchId]).then(([rows, field]) => {
+
+            res.status(200).json({
+                data: "Category Deleted",
+                success: true
+            });
+
+        }).catch((err) => {
+            res.status(500).json({
+                message: err.message,
+                success: false
+            });
+        })
+
+    }).catch((err) => {
+        res.status(500).json({
+            message: err.message,
+            success: false
+        });
+    })
+}

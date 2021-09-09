@@ -7,6 +7,8 @@ const userRoutes = require('./routes/userRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
 const productRoutes = require('./routes/productRoutes');
 const promoRoutes = require('./routes/promoRoutes');
+const employeeRoutes = require('./routes/employeeRoutes');
+const expensesRoutes = require('./routes/expensesRoutes');
 
 
 var fs = require('fs');
@@ -68,6 +70,20 @@ io.of('/').on('connection', function(socket, req) {
         io.emit('promo', true);
     });
 
+    socket.on('employees', function(val) {
+        // print('Connection Failed');
+        io.emit('employees', true);
+    });
+    socket.on('expenses', function(val) {
+        // print('Connection Failed');
+        io.emit('expenses', true);
+    });
+
+    socket.on('balance', function(val) {
+        // print('Connection Failed');
+        io.emit('balance', true);
+    });
+
     socket.on("disconnect", (reason) => {
         // print(reason + " Disconnected")
         console.log("Client Disconnected");
@@ -82,3 +98,5 @@ app.use('/api/user', userRoutes);
 app.use('/api/category', categoryRoutes);
 app.use('/api/product', productRoutes)
 app.use('/api/promo', promoRoutes)
+app.use('/api/employee', employeeRoutes)
+app.use('/api/expenses', expensesRoutes)

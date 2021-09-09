@@ -14,4 +14,6 @@ router.get('/all/:branchid', categoryController.getAllCategory);
 
 router.post('/update/:branchid/:categoryId', categoryController.updateById);
 
+router.post('/delete/:branchid/:categoryId', categoryController.deleteById);
+
 module.exports = router;

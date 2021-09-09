@@ -14,4 +14,6 @@ router.post('/login', authController.loginUser);
 
 router.get('/:id', authController.getUserById);
 
+router.get('/balance/:id', authController.getBalanceById);
+
 module.exports = router;

@@ -110,3 +110,22 @@ exports.getUserById = (req, res, next) => {
         });
     });
 }
+
+exports.getBalanceById = (req, res, next) => {
+    id = req.params.id;
+    db.execute("SELECT balance FROM auth WHERE id = ?", [id]).then(([rows, fieldData]) => {
+        if (rows.length > 0) {
+            res.status(200).json(rows[0]);
+        } else {
+            res.status(404).json({
+                data: 'No data found',
+                success: 0
+            });
+        }
+    }).catch(err => {
+        res.status(500).json({
+            message: err.message,
+            success: false
+        });
+    });
+}

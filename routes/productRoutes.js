@@ -14,4 +14,6 @@ router.get('/all/:branchid', productController.getAllProduct);
 
 router.post('/update/:branchid/:productId', productController.updateById);
 
+router.post('/delete/:branchid/:productId', productController.deleteById);
+
 module.exports = router;
