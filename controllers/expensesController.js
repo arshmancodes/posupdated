@@ -5,10 +5,19 @@ exports.add = (req, res, next) => {
     const branchId = req.params.branchId;
 
     db.execute('INSERT INTO expenses(name, amount, reason, time, branchid) VALUES (?, ?, ?, ?, ? )', [req.body.name, req.body.amount, req.body.reason, req.body.time, branchId]).then(([rows, fieldData]) => {
-        res.status(200).json({
-            id: rows.insertId,
-            success: true
+
+        db.execute('UPDATE auth SET balance = ? WHERE id = ?', [req.body.balance - req.body.amount, branchId]).then(([rows, fieldData]) => {
+            res.status(200).json({
+                id: rows.insertId,
+                success: true
+            });
+        }).catch((err) => {
+            res.status(500).json({
+                message: err.message,
+                success: false
+            });
         });
+
     }).catch((err) => {
         res.status(500).json({
             message: err.message,
@@ -35,7 +44,7 @@ exports.getAllExpenses = (req, res, next) => {
 exports.updateExpenses = (req, res, next) => {
     const id = req.params.id;
 
-    db.execute('UPDATE expenses SET reason = ? WHERE id = ?', [req.body.reason, id]).then(([rows, fieldData]) => {
+    db.execute('UPDATE expenses SET reason = ? , name = ? WHERE id = ?', [req.body.reason, req.body.name, id]).then(([rows, fieldData]) => {
         res.status(200).json({
             message: "Expense updated",
             success: true

@@ -36,7 +36,7 @@ exports.getAllEmployees = (req, res, next) => {
 exports.updateEmployee = (req, res, next) => {
     const id = req.params.id;
 
-    db.execute('UPDATE employees SET name = ?, designation = ?, salary = ? WHERE id = ?', [req.body.name, req.body.designation, req.body.salary, id]).then(([rows, fieldData]) => {
+    db.execute('UPDATE employees SET name = ?, designation = ?, salary = ? , time = ? WHERE id = ?', [req.body.name, req.body.designation, req.body.salary, id]).then(([rows, fieldData]) => {
         res.status(200).json({
             message: "Employee updated",
             success: true

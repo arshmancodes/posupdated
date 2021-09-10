@@ -9,6 +9,8 @@ const productRoutes = require('./routes/productRoutes');
 const promoRoutes = require('./routes/promoRoutes');
 const employeeRoutes = require('./routes/employeeRoutes');
 const expensesRoutes = require('./routes/expensesRoutes');
+const customerRoutes = require('./routes/customerRoutes');
+const transactionRoutes = require('./routes/transactionRoutes');
 
 
 var fs = require('fs');
@@ -84,6 +86,16 @@ io.of('/').on('connection', function(socket, req) {
         io.emit('balance', true);
     });
 
+    socket.on('transactions', function(val) {
+        // print('Connection Failed');
+        io.emit('transactions', true);
+    });
+
+    socket.on('customers', function(val) {
+        // print('Connection Failed');
+        io.emit('customers', true);
+    });
+
     socket.on("disconnect", (reason) => {
         // print(reason + " Disconnected")
         console.log("Client Disconnected");
@@ -100,3 +112,5 @@ app.use('/api/product', productRoutes)
 app.use('/api/promo', promoRoutes)
 app.use('/api/employee', employeeRoutes)
 app.use('/api/expenses', expensesRoutes)
+app.use('/api/customers', customerRoutes)
+app.use('/api/transactions', transactionRoutes)
