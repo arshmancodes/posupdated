@@ -1,6 +1,11 @@
 const db = require('../service/database');
 
 
+print = function(d) {
+    log_file.write(util.format(d) + '\n');
+    log_stdout.write(util.format(d) + '\n');
+};
+
 exports.createTransaction = (req, res, next) => {
 
     const branchId = req.params.branchId;
@@ -33,6 +38,28 @@ exports.createTransaction = (req, res, next) => {
             success: false
         });
     })
+
+
+    db.execute('SELECT used FROM promo WHERE code = ?', [req.body.promoUsed]).then(([rows, fieldData]) => {
+
+        if (req.body.promoStatus === true) {
+
+            db.execute("UPDATE promo SET used = ? WHERE code = ?", [rows[0].used += 1, req.body.promoUsed]).then(([promoUpdate, fieldData]) => {
+                print(promoUpdate)
+
+            })
+        } else {
+            print('Invalid Status')
+        }
+
+
+    }).catch((err => {
+        res.status(500).json({
+            message: error.message,
+            success: false
+        });
+    }))
+
 
     db.execute('INSERT INTO transactions(customerId, discount, beforeCoupon, total, items, itemsLength, time, promoUsed, gst, branchid, status) VALUES (?,?,?,?,?,?,?,?,?,?,?)', [null, req.body.discount, req.body.beforeCoupon, req.body.total, JSON.stringify(items), req.body.itemsLength, req.body.time, req.body.promoUsed, req.body.gst, branchId, "completed"]).then(([transactions, fieldData]) => {
 
