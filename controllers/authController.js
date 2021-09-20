@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 
 // REGISTER USER FUNCTION
 exports.registerUser = (req, res, next) => {
+    var empty = null;
     const salt = genSaltSync(10);
     req.body.password = hashSync(req.body.password, salt);
 
@@ -17,32 +18,20 @@ exports.registerUser = (req, res, next) => {
                 next();
             }
         } else {
-            db.execute('SELECT * FROM auth WHERE branchCode = ?', [req.body.branchCode]).then(([numberRows, fieldData]) => {
-                if (numberRows.length > 0) {
-                    if (numberRows[0].branchCode == req.body.branchCode) {
-                        res.status(409).json({
-                            message: 'Branch Code already exists',
-                            success: false
-                        });
-                        next();
-                    }
-                } else {
-                    db.execute('INSERT INTO auth(username, password, branchCode, balance, admin) VALUES (?, ?, ?, ?, ?)', [req.body.username, req.body.password, req.body.branchCode, 0.0, false]).then(([rows, fieldData]) => {
-                        var str = JSON.stringify(rows);
-                        var object = JSON.parse(str);
-                        res.status(200).json({
-                            message: "Account created successfully",
-                            success: true,
-                            userId: object['insertId'],
-                        });
-                    }).catch(err => {
-                        res.status(500).json({
-                            message: err.message,
-                            success: false
-                        });
-                    });
-                }
-            })
+            db.execute('INSERT INTO auth(username, password, balance, admin, shift, branchid, cnic, phoneNumber, time) VALUES (?, ?, ?, ?, ? , ?, ?, ?, ?)', [req.body.username, req.body.password, req.body.balance, req.body.admin, req.body.shift, req.body.branchId, req.body.cnic, req.body.phoneNumber, req.body.time]).then(([rows, fieldData]) => {
+                var str = JSON.stringify(rows);
+                var object = JSON.parse(str);
+                res.status(200).json({
+                    message: "Account created successfully",
+                    success: true,
+                    userId: object['insertId'],
+                });
+            }).catch(err => {
+                res.status(500).json({
+                    message: err.message,
+                    success: false
+                });
+            });
         }
     }).catch(err => {
         res.status(500).json({
