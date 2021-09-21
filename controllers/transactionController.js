@@ -8,6 +8,7 @@ print = function(d) {
 
 exports.createTransaction = (req, res, next) => {
 
+    const authId = req.params.branchId;
     const branchId = req.params.branchId;
 
     const items = req.body.items;
@@ -25,10 +26,10 @@ exports.createTransaction = (req, res, next) => {
 
     });
 
-    db.execute("SELECT balance FROM auth WHERE id = ?", [branchId]).then(([rows, fieldData]) => {
+    db.execute("SELECT balance FROM auth WHERE id = ?", [authId]).then(([rows, fieldData]) => {
         if (rows.length > 0) {
             const balance = rows[0].balance
-            db.execute('UPDATE auth SET balance = ? WHERE id = ?', [(balance + req.body.total).toFixed(2), branchId]).then(([balUpdate, fieldData]) => {
+            db.execute('UPDATE auth SET balance = ? WHERE branchid = ?', [(balance + req.body.total).toFixed(2), branchId]).then(([balUpdate, fieldData]) => {
                 console.log('Balance Update');
             })
         }

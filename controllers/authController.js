@@ -18,7 +18,7 @@ exports.registerUser = (req, res, next) => {
                 next();
             }
         } else {
-            db.execute('INSERT INTO auth(username, password, balance, admin, shift, branchid, cnic, phoneNumber, time) VALUES (?, ?, ?, ?, ? , ?, ?, ?, ?)', [req.body.username, req.body.password, req.body.balance, req.body.admin, req.body.shift, req.body.branchId, req.body.cnic, req.body.phoneNumber, req.body.time]).then(([rows, fieldData]) => {
+            db.execute('INSERT INTO auth(username, password, balance, bankCash, admin, shift, branchid, cnic, phoneNumber, time) VALUES (?, ?, ?, ?, ?, ? , ?, ?, ?, ?)', [req.body.username, req.body.password, req.body.balance, req.body.bankCash, req.body.admin, req.body.shift, req.body.branchId, req.body.cnic, req.body.phoneNumber, req.body.time]).then(([rows, fieldData]) => {
                 var str = JSON.stringify(rows);
                 var object = JSON.parse(str);
                 res.status(200).json({
@@ -55,6 +55,7 @@ exports.loginUser = (req, res, next) => {
                     message: 'Login Successful',
                     success: true,
                     userId: rows[0].id,
+                    branchId: rows[0].branchid == null ? rows[0].id : rows[0].branchid,
                 });
             } else {
                 res.status(404).json({

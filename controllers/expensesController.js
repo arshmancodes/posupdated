@@ -6,7 +6,7 @@ exports.add = (req, res, next) => {
 
     db.execute('INSERT INTO expenses(name, amount, reason, time, branchid) VALUES (?, ?, ?, ?, ? )', [req.body.name, req.body.amount, req.body.reason, req.body.time, branchId]).then(([rows, fieldData]) => {
 
-        db.execute('UPDATE auth SET balance = ? WHERE id = ?', [req.body.balance - req.body.amount, branchId]).then(([rows, fieldData]) => {
+        db.execute('UPDATE auth SET balance = ? WHERE branchid = ?', [req.body.balance - req.body.amount, branchId]).then(([rows, fieldData]) => {
             res.status(200).json({
                 id: rows.insertId,
                 success: true
