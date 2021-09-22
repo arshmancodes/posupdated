@@ -8,6 +8,8 @@ router.get('/', (req, res, next) => {
 
 
 router.get('/:id', customerController.getById)
+router.get('/phone/:phone', customerController.getByPhone)
+router.get('/all/:phone', customerController.getAllByPhone)
 
 
 module.exports = router;

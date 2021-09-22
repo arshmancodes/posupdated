@@ -62,7 +62,7 @@ exports.createTransaction = (req, res, next) => {
     }))
 
 
-    db.execute('INSERT INTO transactions(customerId, discount, beforeCoupon, total, items, itemsLength, time, promoUsed, gst, branchid, status) VALUES (?,?,?,?,?,?,?,?,?,?,?)', [null, req.body.discount, req.body.beforeCoupon, req.body.total, JSON.stringify(items), req.body.itemsLength, req.body.time, req.body.promoUsed, req.body.gst, branchId, "completed"]).then(([transactions, fieldData]) => {
+    db.execute('INSERT INTO transactions(customerId, discount, beforeCoupon, total, items, itemsLength, time, promoUsed, gst, branchid, status, orderType, paymentType, paidByCustomer, changeAmount, customerName, cashierName, cashierId, productsCost) VALUES (?,?,?,?,?,?,?,?,?,?,?, ?, ?, ?, ?, ?, ?, ?, ?)', [null, req.body.discount, req.body.beforeCoupon, req.body.total, JSON.stringify(items), req.body.itemsLength, req.body.time, req.body.promoUsed, req.body.gst, branchId, "completed", req.body.orderType, req.body.paymentType, req.body.paidByCustomer, req.body.changeAmount, req.body.customerName, req.body.cashierName, req.body.cashierId, req.body.productsCost]).then(([transactions, fieldData]) => {
 
         const transactionId = transactions.insertId;
 
@@ -106,11 +106,10 @@ exports.getTransactions = (req, res, next) => {
 
     db.execute("SELECT * FROM transactions WHERE branchid = ?", [branchId]).then(([transactions, fieldData]) => {
 
-
+        const myArray = [];
         for (var i = 0; i < transactions.length; i++) {
             transactions[i].items = JSON.parse(transactions[i].items)
         }
-
 
         res.status(200).json(transactions);
 
