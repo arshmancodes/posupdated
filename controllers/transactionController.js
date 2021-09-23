@@ -62,7 +62,7 @@ exports.createTransaction = (req, res, next) => {
     }))
 
 
-    db.execute('INSERT INTO transactions(customerId, discount, beforeCoupon, total, items, itemsLength, time, promoUsed, gst, branchid, status, orderType, paymentType, paidByCustomer, changeAmount, customerName, cashierName, cashierId, productsCost) VALUES (?,?,?,?,?,?,?,?,?,?,?, ?, ?, ?, ?, ?, ?, ?, ?)', [null, req.body.discount, req.body.beforeCoupon, req.body.total, JSON.stringify(items), req.body.itemsLength, req.body.time, req.body.promoUsed, req.body.gst, branchId, "completed", req.body.orderType, req.body.paymentType, req.body.paidByCustomer, req.body.changeAmount, req.body.customerName, req.body.cashierName, req.body.cashierId, req.body.productsCost]).then(([transactions, fieldData]) => {
+    db.execute('INSERT INTO transactions(customerId, discount, promoType , beforeCoupon, total, items, itemsLength, time, promoUsed, gst, branchid, status, orderType, paymentType, paidByCustomer, changeAmount, customerName, cashierName, cashierId, productsCost) VALUES (?,?,?,?,?,?,?,?,?,?,?, ?, ?, ?, ?, ?, ?, ?, ?,?)', [null, req.body.discount, req.body.promoType, req.body.beforeCoupon, req.body.total, JSON.stringify(items), req.body.itemsLength, req.body.time, req.body.promoUsed, req.body.gst, branchId, "completed", req.body.orderType, req.body.paymentType, req.body.paidByCustomer, req.body.changeAmount, req.body.customerName, req.body.cashierName, req.body.cashierId, req.body.productsCost]).then(([transactions, fieldData]) => {
 
         const transactionId = transactions.insertId;
 

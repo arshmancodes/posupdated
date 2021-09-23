@@ -2,7 +2,7 @@ const db = require('../service/database');
 
 exports.createPromo = (req, res, next) => {
 
-    db.execute('INSERT INTO promo(code, status, percent, used) VALUES (?, ?, ?, ? )', [req.body.code, req.body.status, req.body.percent, 0]).then(([rows, fieldData]) => {
+    db.execute('INSERT INTO promo(code, status, percent, used, type) VALUES (?, ?, ?, ?, ?)', [req.body.code, req.body.status, req.body.percent, 0, req.body.type]).then(([rows, fieldData]) => {
         res.status(200).json({
             id: rows.insertId,
             success: true
@@ -38,7 +38,7 @@ exports.updatePromo = (req, res, next) => {
 
     const id = req.params.id;
 
-    db.execute('UPDATE promo SET code = ?, status = ?, percent = ? WHERE id = ?', [req.body.code, req.body.status, req.body.percent, id]).then(([rows, fieldData]) => {
+    db.execute('UPDATE promo SET code = ?, status = ?, percent = ?, type = ? WHERE id = ?', [req.body.code, req.body.status, req.body.percent, req.body.type, id]).then(([rows, fieldData]) => {
         res.status(200).json({
             message: "Promo code updated",
             success: true
