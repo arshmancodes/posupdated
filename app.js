@@ -11,6 +11,7 @@ const employeeRoutes = require('./routes/employeeRoutes');
 const expensesRoutes = require('./routes/expensesRoutes');
 const customerRoutes = require('./routes/customerRoutes');
 const transactionRoutes = require('./routes/transactionRoutes');
+const rawitemsRoutes = require('./routes//rawItemRoutes');
 
 
 var fs = require('fs');
@@ -119,3 +120,4 @@ app.use('/api/employee', employeeRoutes)
 app.use('/api/expenses', expensesRoutes)
 app.use('/api/customers', customerRoutes)
 app.use('/api/transactions', transactionRoutes)
+app.use('/api/rawitems', rawitemsRoutes)
