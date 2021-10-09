@@ -11,7 +11,9 @@ const employeeRoutes = require('./routes/employeeRoutes');
 const expensesRoutes = require('./routes/expensesRoutes');
 const customerRoutes = require('./routes/customerRoutes');
 const transactionRoutes = require('./routes/transactionRoutes');
-const rawitemsRoutes = require('./routes//rawItemRoutes');
+const rawitemsRoutes = require('./routes/rawItemRoutes');
+const accountsRoutes = require('./routes/accountsRoutes');
+const ledgerRoutes = require('./routes/ledgerRoutes');
 
 
 var fs = require('fs');
@@ -121,3 +123,5 @@ app.use('/api/expenses', expensesRoutes)
 app.use('/api/customers', customerRoutes)
 app.use('/api/transactions', transactionRoutes)
 app.use('/api/rawitems', rawitemsRoutes)
+app.use('/api/accounts', accountsRoutes)
+app.use('/api/ledgers', ledgerRoutes)
