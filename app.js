@@ -89,6 +89,16 @@ io.of('/').on('connection', function(socket, req) {
         io.emit('balance', true);
     });
 
+    socket.on('listen_raw', function(val) {
+        // print('Connection Failed');
+        io.emit('listen_raw', true);
+    });
+
+    socket.on('listen_accounts', function(val) {
+        // print('Connection Failed');
+        io.emit('listen_accounts', true);
+    });
+
     socket.on('transactions', function(val) {
         // print('Connection Failed');
         io.emit('transactions', true);
