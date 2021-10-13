@@ -41,9 +41,51 @@ exports.updateRawItemsById = (req, res, next) => {
     const rawitemId = req.params.id;
 
 
-    const { name, quantity, unit, price } = req.body;
+    const { name, quantity, unit, amount, paid, date, accountId } = req.body;
 
-    db.execute('UPDATE rawitems SET name = ? , quantity = ?, unit = ?, price = ? WHERE id = ?', [name, quantity, unit, price, rawitemId]).then(([rows, field]) => {
+
+    db.execute('UPDATE rawitems SET quantity = ? WHERE id = ?', [quantity, rawitemId]).then(([rows, field]) => {
+
+        db.execute("INSERT INTO ledgers (accountId, transactionDetail, amount, totalPayable, paid, remaining, date, quantity, unit) VALUES (?, ?, ?, ?, ? , ?, ?, ?, ?)", [accountId, name, amount, amount - paid, paid, amount - paid, date, quantity, unit]).then(([rows, fieldData]) => {
+
+            //! UPDATE ACCOUNTS DATA 
+            db.execute('SELECT * FROM ledgers WHERE accountId = ?', [accountId]).then(([ledgers, fieldData]) => {
+                var totalBusinessAmount = 0;
+                var totalPayable = 0;
+
+                if (ledgers.length > 0) {
+                    ledgers.forEach((ledger) => {
+                        totalBusinessAmount = totalBusinessAmount + parseFloat(ledger.paid);
+                        totalPayable = totalPayable + parseFloat(ledger.totalPayable);
+                    })
+
+
+                    db.execute('UPDATE accounts SET totalbalance = ?, totalPayable = ? WHERE id = ?', [totalBusinessAmount, totalPayable, accountId]).then(([updatedAccount, fieldData]) => {
+                        console.log(updatedAccount)
+                        res.status(200).json({
+                            data: 'RawItem Updated',
+                            success: true
+                        });
+                    })
+
+                } else {
+                    res.status(200).json({
+                        data: 'RawItem Updated',
+                        success: true
+                    });
+                }
+
+
+            })
+
+        }).catch((err) => {
+            res.status(500).json({
+                message: err.message,
+                success: false
+            });
+        })
+
+
         res.status(200).json({
             data: "Raw Item Updated",
             success: true
