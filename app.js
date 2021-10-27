@@ -116,6 +116,11 @@ io.of('/').on('connection', function(socket, req) {
         io.emit('cashier', true);
     });
 
+    socket.on('orders', function(val) {
+        // print('Connection Failed');
+        io.emit('orders', true);
+    });
+
     socket.on("disconnect", (reason) => {
         // print(reason + " Disconnected")
         console.log("Client Disconnected");
